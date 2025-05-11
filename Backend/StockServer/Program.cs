@@ -8,25 +8,29 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<RsaKeyService>();
 
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins("http://localhost:5500") 
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://127.0.0.1:5500")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
 });
+
 
 var app = builder.Build();
 
-app.UseCors("AllowFrontend");
+app.UseCors(MyAllowSpecificOrigins);
+
 
 
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-
 app.MapControllers(); 
 
 app.Run();

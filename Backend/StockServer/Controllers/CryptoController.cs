@@ -11,15 +11,28 @@ public class CryptoController : ControllerBase
         _rsa = rsa;
     }
 
-    [HttpGet("public-key")]
-    public IActionResult GetPublicKey()
-    {
-        var key = _rsa.GetPublicKey();
+   [HttpGet("public-key")]
+public IActionResult GetPublicKey()
+{
+    var parameters = _rsa.GetPublicKey();
 
-        return Ok(new
-        {
-            Modulus = Convert.ToBase64String(key.Modulus),
-            Exponent = Convert.ToBase64String(key.Exponent)
-        });
-    }
+    string Base64UrlEncode(byte[] input) =>
+        Convert.ToBase64String(input)
+            .TrimEnd('=')
+            .Replace('+', '-')
+            .Replace('/', '_');
+
+    var jwk = new
+    {
+        kty = "RSA",
+        n = Base64UrlEncode(parameters.Modulus),
+        e = Base64UrlEncode(parameters.Exponent),
+        alg = "RSA-OAEP-256",
+        ext = true,
+        key_ops = new[] { "encrypt" }
+    };
+
+    return Ok(jwk);
+}
+
 }

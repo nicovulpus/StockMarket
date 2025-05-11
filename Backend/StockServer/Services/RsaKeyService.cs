@@ -10,11 +10,7 @@ public class RsaKeyService
     }
 
     public RSAParameters GetPublicKey() => _rsa.ExportParameters(false);
-    public RSA GetPrivateKey() => _rsa;
-    public byte[] Decrypt(byte[] encryptedData, RSAEncryptionPadding padding)
-{
-    return _rsa.Decrypt(encryptedData, padding);
+    public byte[] Decrypt(byte[] data, RSAEncryptionPadding padding) => _rsa.Decrypt(data, padding);
 }
 
-}
 

@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-
+namespace StockServer.Models;
 
 public class Stock
 {

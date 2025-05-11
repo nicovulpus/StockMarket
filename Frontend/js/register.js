@@ -1,8 +1,12 @@
-// CHECKING THE PASSWORD REQUIREMENTS
+// CHECKING THE PASSWORD REQUIREMENTS AND SENDING FORM
 
-document
-  .getElementById("registerForm")
-  .addEventListener("submit", function (e) {
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("registerForm");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const confirm = document.getElementById("confirmPassword").value;
     const errorDisplay = document.getElementById("error");
@@ -14,33 +18,21 @@ document
 
     errorDisplay.textContent = "";
 
-    if (!isLongEnough || !hasDigit || !hasUppercase) {
-      e.preventDefault();
+    if (!isLongEnough || !hasDigit || !hasUppercase || !hasLowercase) {
       errorDisplay.textContent =
-        "Password must be at least 8 characters long, contain at least one number, one uppercase letter and one lowercase letter.";
+        "Password must be at least 8 characters, contain a digit, uppercase and lowercase letter.";
       return;
     }
 
     if (password !== confirm) {
-      e.preventDefault();
       errorDisplay.textContent = "Passwords do not match.";
       return;
     }
-  });
-
-//SEND FORM REGISTER FORM TO BACKEND
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("registerForm");
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    console.log("Register form submitted!");
-
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
 
     try {
-      const publicKey = await fetchPublicKey(); // 🟢 THIS is where you set it
+      console.log("Register form submitted!");
+
+      const publicKey = await fetchPublicKey();
       if (!publicKey) throw new Error("Public key is undefined");
 
       const encrypted = await encryptPayload({ email, password }, publicKey);

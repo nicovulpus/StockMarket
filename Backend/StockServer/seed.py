@@ -1,11 +1,11 @@
 import psycopg2
 import json
 
-# Load the JSON data
+
 with open("MOCK_DATA.json", "r") as f:
     stock_data = json.load(f)
 
-# Connect to PostgreSQL
+
 conn = psycopg2.connect(
     host="localhost",
     port=5432,
@@ -16,7 +16,7 @@ conn = psycopg2.connect(
 
 cur = conn.cursor()
 
-# Insert each stock into the Stocks table
+
 for stock in stock_data:
     cur.execute("""
         INSERT INTO "Stocks" (
@@ -41,7 +41,7 @@ for stock in stock_data:
     ))
 
 conn.commit()
-print("✅ Successfully seeded stock data from JSON.")
+print("Successfully seeded stock data from JSON.")
 
 cur.close()
 conn.close()

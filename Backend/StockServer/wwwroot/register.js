@@ -44,9 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const result = await response.json();
-      console.log("✅ Server response:", result);
+      console.log("Server response:", result);
     } catch (err) {
-      console.error("❌ Registration failed:", err);
+      console.error(" Registration failed:", err);
     }
   });
 });
@@ -55,7 +55,7 @@ async function fetchPublicKey() {
   try {
     const res = await fetch("https://localhost:7236/api/crypto/public-key");
     const jwkRaw = await res.json();
-    console.log("📦 JWK from server:", jwkRaw);
+    console.log(" JWK from server:", jwkRaw);
 
     // Strip extra fields that cause silent importKey failure
     const { kty, n, e, ext } = jwkRaw;
@@ -72,10 +72,10 @@ async function fetchPublicKey() {
       ["encrypt"]
     );
 
-    console.log("✅ Imported key:", publicKey);
+    console.log("Imported key:", publicKey);
     return publicKey;
   } catch (error) {
-    console.error("❌ Key import failed:", error);
+    console.error("Key import failed:", error);
     return undefined;
   }
 }

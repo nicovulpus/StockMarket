@@ -24,7 +24,7 @@ async function encryptPayload(data) {
     encoded
   );
 
-  return btoa(String.fromCharCode(...new Uint8Array(encrypted))); // Base64 encode for sending
+  return btoa(String.fromCharCode(...new Uint8Array(encrypted)));
 }
 document
   .getElementById("registerForm")

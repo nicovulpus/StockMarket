@@ -27,8 +27,8 @@ var app = builder.Build();
 app.UseCors(MyAllowSpecificOrigins);
 
 
-
-
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers(); 
